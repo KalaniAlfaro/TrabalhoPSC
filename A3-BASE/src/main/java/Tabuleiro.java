@@ -6,6 +6,7 @@ public class Tabuleiro {
   private Terminal[][] tabVisual;
   int[][] tab;
   int numComb = 0;
+  int gemaComb = 0;
 
   private static final int CAVEIRA = 0;
   private static final int VERMELHA = 1;
@@ -43,7 +44,11 @@ public class Tabuleiro {
   }
 
   public boolean derruba() {
-    if (derruba5()) {
+    if (derrubaL()) {
+      substituirGemas();
+      this.numComb = 5;
+      return true;
+    } else if (derruba5()) {
       substituirGemas();
       this.numComb = 5;
       return true;
@@ -54,10 +59,6 @@ public class Tabuleiro {
     } else if (derruba3()) {
       substituirGemas();
       this.numComb = 3;
-      return true;
-    } else if (derrubaL()) {
-      substituirGemas();
-      this.numComb = 5;
       return true;
     } else {
       return false;
@@ -100,6 +101,7 @@ public class Tabuleiro {
     for (int i = 0; i < TAMANHO; i++) {
       for (int j = 0; j < TAMANHO - 2; j++) {
         if (tab[i][j] == tab[i][j + 1] && tab[i][j + 1] == tab[i][j + 2] && tab[i][j] != 8) {
+          this.gemaComb = tab[i][j];
           tab[i][j] = 8;
           tab[i][j + 1] = 8;
           tab[i][j + 2] = 8;
@@ -110,6 +112,7 @@ public class Tabuleiro {
     for (int j = 0; j < TAMANHO; j++) {
       for (int i = 0; i < TAMANHO - 2; i++) {
         if (tab[i][j] == tab[i + 1][j] && tab[i + 1][j] == tab[i + 2][j] && tab[i][j] != 8) {
+          this.gemaComb = tab[i][j];
           tab[i][j] = 8;
           tab[i + 1][j] = 8;
           tab[i + 2][j] = 8;
@@ -126,6 +129,7 @@ public class Tabuleiro {
       for (int j = 0; j < TAMANHO - 3; j++) {
         if (tab[i][j] == tab[i][j + 1] && tab[i][j + 1] == tab[i][j + 2] && tab[i][j + 2] == tab[i][j + 3]
             && tab[i][j] != 8) {
+          this.gemaComb = tab[i][j];
           tab[i][j] = 8;
           tab[i][j + 1] = 8;
           tab[i][j + 2] = 8;
@@ -138,6 +142,7 @@ public class Tabuleiro {
       for (int i = 0; i < TAMANHO - 3; i++) {
         if (tab[i][j] == tab[i + 1][j] && tab[i + 1][j] == tab[i + 2][j] && tab[i + 2][j] == tab[i + 3][j]
             && tab[i][j] != 8) {
+          this.gemaComb = tab[i][j];
           tab[i][j] = 8;
           tab[i + 1][j] = 8;
           tab[i + 2][j] = 8;
@@ -155,6 +160,7 @@ public class Tabuleiro {
       for (int j = 0; j < TAMANHO - 4; j++) {
         if (tab[i][j] == tab[i][j + 1] && tab[i][j + 1] == tab[i][j + 2] && tab[i][j + 2] == tab[i][j + 3]
             && tab[i][j + 3] == tab[i][j + 4] && tab[i][j] != 8) {
+          this.gemaComb = tab[i][j];
           tab[i][j] = 8;
           tab[i][j + 1] = 8;
           tab[i][j + 2] = 8;
@@ -172,6 +178,7 @@ public class Tabuleiro {
         int gema4 = tab[i + 3][j];
         int gema5 = tab[i + 4][j];
         if (gema1 == gema2 && gema2 == gema3 && gema3 == gema4 && gema4 == gema5 && gema1 != 8) {
+          this.gemaComb = tab[i][j];
           tab[i][j] = 8;
           tab[i + 1][j] = 8;
           tab[i + 2][j] = 8;
@@ -193,6 +200,7 @@ public class Tabuleiro {
           // Verifica "L" na forma └
           if (tab[i][j] == tab[i + 1][j] && tab[i + 1][j] == tab[i + 2][j] &&
               tab[i][j] == tab[i][j + 1] && tab[i][j + 1] == tab[i][j + 2]) {
+            this.gemaComb = tab[i][j];
             tab[i][j] = 8;
             tab[i + 1][j] = 8;
             tab[i + 2][j] = 8;
@@ -203,6 +211,7 @@ public class Tabuleiro {
           // Verifica "L" na forma ┌
           if (tab[i][j + 2] == tab[i + 1][j + 2] && tab[i + 1][j + 2] == tab[i + 2][j + 2] &&
               tab[i][j] == tab[i][j + 1] && tab[i][j + 1] == tab[i][j + 2]) {
+            this.gemaComb = tab[i][j];
             tab[i][j] = 8;
             tab[i][j + 1] = 8;
             tab[i][j + 2] = 8;
@@ -213,6 +222,7 @@ public class Tabuleiro {
           // Verifica "L" na forma ┐
           if (tab[i + 2][j] == tab[i + 2][j + 1] && tab[i + 2][j + 1] == tab[i + 2][j + 2] &&
               tab[i][j] == tab[i + 1][j] && tab[i + 1][j] == tab[i + 2][j]) {
+            this.gemaComb = tab[i][j];
             tab[i][j] = 8;
             tab[i + 1][j] = 8;
             tab[i + 2][j] = 8;
@@ -223,7 +233,7 @@ public class Tabuleiro {
           // Verifica "L" na forma ┘
           if (tab[i][j] == tab[i + 1][j] && tab[i + 1][j] == tab[i + 2][j] &&
               tab[i + 2][j] == tab[i + 2][j + 1] && tab[i + 2][j + 1] == tab[i + 2][j + 2]) {
-
+            this.gemaComb = tab[i][j];
             tab[i][j] = 8;
             tab[i + 1][j] = 8;
             tab[i + 2][j] = 8;
@@ -240,11 +250,11 @@ public class Tabuleiro {
   // TROCA AS GEMAS DE COMBINAÇÕES POR NOVAS
   public void substituirGemas() {
     boolean tabLimpo = true;
-    
+
     while (tabLimpo) {
-      
+
       tabLimpo = false;
-      
+
       for (int j = 0; j < TAMANHO; j++) {
         for (int i = TAMANHO - 1; i >= 0; i--) {
           if (tab[i][j] == 8) {
@@ -270,74 +280,83 @@ public class Tabuleiro {
 
   // MOVIMENTA AS GEMAS DE LUGAR
   public void trocar(int x, int y, int ox, int oy, Jogador jogadorAtual, Jogador adversario) {
-
+    
     int gema = tab[x][y];
     jogadorAtual.ganhouTurnoExtra = false;
 
     if (!jogadaValida(x, y, ox, oy)) {
       System.out.println("Jogada inválida. Tente novamente.");
       return;
-    } else {
-      aplicarEfeitoGema(gema, jogadorAtual, adversario);
     }
-
-    System.out.printf("Trocando gemas (%d, %d) [%d] com (%d, %d) [%d]%n",
-        x, y, tab[x][y],
-        ox, oy, tab[ox][oy]);
 
     int aux = this.tab[x][y];
     this.tab[x][y] = this.tab[ox][oy];
     this.tab[ox][oy] = aux;
 
     if (!derruba()) {
-      System.out.println("Jogada inválida. Tente novamente.");
+      System.out.println("Não conseguiu! Mais sorte na próxima vez.");
       aux = this.tab[x][y];
       this.tab[x][y] = this.tab[ox][oy];
       this.tab[ox][oy] = aux;
+    } else {
+      System.out.printf("Trocando gemas (%d, %d) [%d] com (%d, %d) [%d]%n",
+          x, y, tab[x][y],
+          ox, oy, tab[ox][oy]);
+      aplicarEfeitoGema(gema, jogadorAtual, adversario);
     }
 
     turnoExtra(jogadorAtual);
 
-    while (derruba())
+    while (derruba()){
       derruba();
+      aplicarEfeitoGema(gema, jogadorAtual, adversario);
+    }
 
   }
 
   // APLICA O EFEITO DAS GEMAS
   public void aplicarEfeitoGema(int num, Jogador jogadorAtual, Jogador adversario) {
-    int gema = num;
-    switch (gema) {
-      case CAVEIRA:
-        int dano = this.numComb;
-        dano = jogadorAtual.danoDuplo ? (this.numComb * 2) : (this.numComb);
-        adversario.ajustarVida(-dano);
-        jogadorAtual.danoDuplo = false;
-        System.out.println("Jogador " + jogadorAtual.nome + " causou " + dano + " de dano!");
-        break;
-      case VERMELHA:
-        jogadorAtual.ajustarVida(this.numComb);
-        System.out.println("Ganhou vida!");
-        break;
-      case AZUL:
-        transformarGemas(VERMELHA, CAVEIRA);
-        System.out.println(" VERMELHAS VIRAM CAVEIRAS!");
-        break;
-      case VERDE:
-        transformarGemas(CAVEIRA, VERMELHA);
-        System.out.println(" CAVEIRAS VIRAM VERMELHAS!");
-        break;
-      case AMARELA:
-        adversario.ajustarOuro(-adversario.ouro);
-        System.out.println(adversario.nome + " PERDEU OURO!");
-        break;
-      case OURO:
-        jogadorAtual.ajustarOuro(1);
-        System.out.println(jogadorAtual.nome + " GANHOU OURO!");
-        break;
-      case EXPERIENCIA:
-        jogadorAtual.ajustarExperiencia(1);
-        System.out.println(jogadorAtual.nome + " GANHOU EXPERIENCIA!");
-        break;
+    int gema = this.gemaComb;
+    if (this.numComb == 5) {
+      System.out.println("WOW!!! 5 GEMAS!");
+      adversario.ajustarOuro(-adversario.ouro);
+      jogadorAtual.ajustarExperiencia(10, adversario);
+      jogadorAtual.ajustarOuro(10);
+      jogadorAtual.ajustarVida(10);
+    } else {
+      switch (gema) {
+        case CAVEIRA:
+          int dano = this.numComb;
+          dano = jogadorAtual.danoDuplo ? (this.numComb * 2) : (this.numComb);
+          adversario.ajustarVida(-dano);
+          jogadorAtual.danoDuplo = false;
+          System.out.println("Jogador " + jogadorAtual.nome + " causou " + dano + " de dano!");
+          break;
+        case VERMELHA:
+          jogadorAtual.ajustarVida(this.numComb);
+          System.out.println("Ganhou vida!");
+          break;
+        case AZUL:
+          transformarGemas(VERMELHA, CAVEIRA);
+          System.out.println(" VERMELHAS VIRAM CAVEIRAS!");
+          break;
+        case VERDE:
+          transformarGemas(CAVEIRA, VERMELHA);
+          System.out.println(" CAVEIRAS VIRAM VERMELHAS!");
+          break;
+        case AMARELA:
+          adversario.ajustarOuro(-adversario.ouro);
+          System.out.println(adversario.nome + " PERDEU OURO!");
+          break;
+        case OURO:
+          jogadorAtual.ajustarOuro(1);
+          System.out.println(jogadorAtual.nome + " GANHOU OURO!");
+          break;
+        case EXPERIENCIA:
+          jogadorAtual.ajustarExperiencia(1, adversario);
+          System.out.println(jogadorAtual.nome + " GANHOU EXPERIENCIA!");
+          break;
+      }
     }
   }
 

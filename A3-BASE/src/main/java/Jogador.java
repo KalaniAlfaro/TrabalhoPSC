@@ -22,16 +22,18 @@ public class Jogador {
   public void ajustarOuro(int quantidade) {
     this.ouro += quantidade;
     if (this.ouro >= 10) {
+      System.out.println("Próximo ataque com poder dobrado!!");
         this.danoDuplo = true;
         this.ouro = 0;
     }
   }
 
-  public void ajustarExperiencia(int quantidade) {
+  public void ajustarExperiencia(int quantidade, Jogador adversario) {
     this.experiencia += quantidade;
     if (this.experiencia >= 10) {
+      System.out.println("SUBIU DE NÍVEL!!");
         this.experiencia = 0;
-        this.vida -= 10;
+        adversario.vida -= 10;
     }
   }
 }
