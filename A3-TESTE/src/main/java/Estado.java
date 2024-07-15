@@ -1,0 +1,5 @@
+public enum Estado {
+    LENDO_NUM_COLUNAS,
+    LENDO_NUM_LINHAS,
+    LENDO_TABULEIRO
+}
